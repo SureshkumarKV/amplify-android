@@ -21,8 +21,8 @@ import androidx.annotation.Nullable;
 import com.amplifyframework.api.ApiException;
 import com.amplifyframework.api.ApiException.ApiAuthException;
 import com.amplifyframework.api.aws.ApiAuthProviders;
-import com.amplifyframework.api.aws.AppSyncGraphQLRequest;
 import com.amplifyframework.api.aws.AuthorizationType;
+import com.amplifyframework.api.aws.AuthorizedRequest;
 import com.amplifyframework.api.aws.EndpointType;
 import com.amplifyframework.api.aws.sigv4.AWS4Signer;
 import com.amplifyframework.api.aws.sigv4.ApiGatewayIamSigner;
@@ -91,9 +91,9 @@ public final class ApiRequestDecoratorFactory {
         AuthorizationType authType = defaultAuthorizationType;
         // If it is an instance of AppSyncGraphQLRequest AND
         // the request's authorization type is not null
-        if (graphQLRequest instanceof AppSyncGraphQLRequest<?>
-            && ((AppSyncGraphQLRequest<?>) graphQLRequest).getAuthorizationType() != null) {
-            authType = ((AppSyncGraphQLRequest<?>) graphQLRequest).getAuthorizationType();
+        if (graphQLRequest instanceof AuthorizedRequest
+            && ((AuthorizedRequest) graphQLRequest).getAuthorizationType() != null) {
+            authType = ((AuthorizedRequest) graphQLRequest).getAuthorizationType();
         }
         return forAuthType(authType);
     }

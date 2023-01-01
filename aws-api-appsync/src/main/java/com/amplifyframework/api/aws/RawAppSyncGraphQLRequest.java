@@ -1,3 +1,18 @@
+/*
+ * Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License").
+ * You may not use this file except in compliance with the License.
+ * A copy of the License is located at
+ *
+ *  http://aws.amazon.com/apache2.0
+ *
+ * or in the "license" file accompanying this file. This file is distributed
+ * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package com.amplifyframework.api.aws;
 
 import androidx.core.util.ObjectsCompat;
@@ -9,21 +24,23 @@ import java.util.Collections;
 import java.util.Map;
 
 /**
- * A low level implementation of GraphQLRequest, which takes a document String, variables Map and authorization mode.
+ * A low level implementation of GraphQLRequest, which takes a document String, variables Map,
+ *  authorization mode and authorization strategy.
  * @param <T> Type of T, the data contained in the GraphQLResponse expected from this request.
  */
-public class RawGraphQLRequest<T> extends GraphQLRequest<T> implements AuthorizedRequest{
+public final class RawAppSyncGraphQLRequest<T> extends GraphQLRequest<T> implements AuthorizedRequest {
     private final String document;
     private final Map<String, Object> variables;
     private final AuthorizationType authorizationType;
 
     /**
-     * Constructor for RawGraphQLRequest.
+     * Constructor for RawAppSyncGraphQLRequest.
      * @param document document String for request
      * @param responseType Type of R, the data contained in the GraphQLResponse expected from this request
      * @param variablesSerializer an object which can take a map of variables and serialize it properly
+     * @param authorizationType The {@link AuthorizationType} for this request.
      */
-    public RawGraphQLRequest(
+    public RawAppSyncGraphQLRequest(
             String document,
             Type responseType,
             VariablesSerializer variablesSerializer,
@@ -33,13 +50,14 @@ public class RawGraphQLRequest<T> extends GraphQLRequest<T> implements Authorize
     }
 
     /**
-     * Constructor for RawGraphQLRequest.
+     * Constructor for RawAppSyncGraphQLRequest.
      * @param document query document to process
      * @param variables variables to be added
      * @param responseType Type of R, the data contained in the GraphQLResponse expected from this request
      * @param variablesSerializer an object which can take a map of variables and serialize it properly
+     * @param authorizationType The {@link AuthorizationType} for this request.
      */
-    public RawGraphQLRequest(
+    public RawAppSyncGraphQLRequest(
             String document,
             Map<String, Object> variables,
             Type responseType,
@@ -85,7 +103,7 @@ public class RawGraphQLRequest<T> extends GraphQLRequest<T> implements Authorize
             return false;
         }
 
-        RawGraphQLRequest<?> that = (RawGraphQLRequest<?>) object;
+        RawAppSyncGraphQLRequest<?> that = (RawAppSyncGraphQLRequest<?>) object;
         return ObjectsCompat.equals(document, that.document) &&
                 ObjectsCompat.equals(variables, that.variables);
     }
